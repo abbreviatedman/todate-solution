@@ -1,20 +1,20 @@
-let todos = [
-  `Be able to mark todos "done".`,
-  `Allow user interaction through the DOM`,
-  `Add dates to todos.`,
-]
+// let todos = [
+//   `Be able to mark todos "done".`,
+//   `Allow user interaction through the DOM`,
+//   `Add dates to todos.`,
+// ]
 
-let completed = [
-  false,
-  false,
-  false,
-]
+// let completed = [
+//   false,
+//   false,
+//   false,
+// ]
 
-let dates = [
-  getCurrentDateAndTime(),
-  getCurrentDateAndTime(),
-  getCurrentDateAndTime(),
-]
+// let dates = [
+//   getCurrentDateAndTime(),
+//   getCurrentDateAndTime(),
+//   getCurrentDateAndTime(),
+// ]
 
 function getCurrentDateAndTime() {
   return new Date().toLocaleString();
@@ -22,23 +22,23 @@ function getCurrentDateAndTime() {
 
 
 // Or the ALTERNATE method:
-// let todos = [
-//   [
-//     `Be able to mark todos "done".`,
-//     false,
-//     getCurrentDateAndTime(),
-//   ],
-//   [
-//     `Allow user interaction through the DOM`,
-//     false,
-//     getCurrentDateAndTime(),
-//   ],
-//   [
-//     `Add dates to todos.`,
-//     false,
-//     getCurrentDateAndTime(),
-//   ],
-// ]
+let todos = [
+  [
+    `Be able to mark todos "done".`,
+    false,
+    getCurrentDateAndTime(),
+  ],
+  [
+    `Allow user interaction through the DOM`,
+    false,
+    getCurrentDateAndTime(),
+  ],
+  [
+    `Add dates to todos.`,
+    false,
+    getCurrentDateAndTime(),
+  ],
+]
 
 // TODO: uncomment below once you have printList and printTodo working!
 printList();
@@ -68,21 +68,21 @@ function printTodo(todoName, todoDate, todoIndex) {
 function printList() {
   let i = 0;
   while (i < todos.length) {
-    printTodo(todos[i], dates[i], i);
+    // printTodo(todos[i], dates[i], i);
     // Or, for tuples:
-    // printTodo(todos[i][0], todos[i][2], i);
+    printTodo(todos[i][0], todos[i][2], i);
 
     i = i + 1;
   }
 }
 
-function addTodo(todo) {
-  todos.push(todo);
-  completed.push(false);
-  dates.push(getCurrentDateAndTime());
+function addTodo(todo, todoDate) {
+  // todos.push(todo);
+  // completed.push(false);
+  // dates.push(getCurrentDateAndTime());
 
   // Or, using tuples:
-    // todos.push([todo, false, getCurrentDateAndTime()]);
+    todos.push([todo, false, todoDate]);
 }
 
 // A function that removes an item at a given index from our todo list.
@@ -90,8 +90,8 @@ function removeTodo(i) {
   todos.splice(i, 1);
 
   // Unneeded (and an error!) if using tuples:
-  completed.splice(i, 1);
-  dates.splice(i, 1);
+  // completed.splice(i, 1);
+  // dates.splice(i, 1);
 }
 
 
@@ -101,8 +101,9 @@ addButton.onclick = addToList;
 function addToList() {
   const inputBox = document.querySelector('.todo-input');
   const userInput = inputBox.value;
-  addTodo(userInput);
-  printTodo(userInput);
+  const todoDate = getCurrentDateAndTime();
+  addTodo(userInput, todoDate);
+  printTodo(userInput, todoDate, todos.length);
   inputBox.value = '';
 }
 
@@ -111,13 +112,13 @@ function handleMark(event) {
   // Get the li
   const li = event.target.parentNode;
 
-  
+  // Get the li's index.
   const ul = document.querySelector('.todo-list');
   const listItems = Array.from(ul.childNodes);
   const index = listItems.indexOf(li);
 
   // Alternate method to getting the index:
-  const index = Number(li.id);
+  // const index = Number(li.id);
 
 
   printMark(index);
@@ -126,33 +127,33 @@ function handleMark(event) {
 
 
 function markComplete(index) {
-  if (completed[index] === true) {
-    completed[index] = false;
-  } else {
-    completed[index] = true;
-  }
-  // Or, for tuples:
-  // if (todos[index][1] === true) {
-  //   todos[index][1] = false;
+  // if (completed[index] === true) {
+  //   completed[index] = false;
   // } else {
-  //   todos[index][1] = true;
+  //   completed[index] = true;
   // }
+  // Or, for tuples:
+  if (todos[index][1] === true) {
+    todos[index][1] = false;
+  } else {
+    todos[index][1] = true;
+  }
 }
 
 function printMark(index) {
   const li = document.querySelector(`li:nth-child(${index + 1})`);
-  if (completed[index] === true) {
-    li.style.textDecoration = '';
-  } else {
-    li.style.textDecoration = 'line-through';
-  }
-
-  // Or, for tuples:
-  // if (todos[index][1] === true) {
+  // if (completed[index] === true) {
   //   li.style.textDecoration = '';
   // } else {
   //   li.style.textDecoration = 'line-through';
   // }
+
+  // Or, for tuples:
+  if (todos[index][1] === true) {
+    li.style.textDecoration = '';
+  } else {
+    li.style.textDecoration = 'line-through';
+  }
 }
 
 const deleteButton = document.querySelector('.delete-completed-todos');
@@ -161,20 +162,20 @@ deleteButton.onclick = handleDelete;
 function handleDelete() {
   const newTodos = [];
   // The next two lines are unnecessary for tuples:
-  const newCompleted = [];
-  const newDates = [];
+  // const newCompleted = [];
+  // const newDates = [];
 
   for (let i = 0; i < todos.length; i++) {
-    if (completed[i] === false) {
-      newTodos.push(todos[i]);
-      newCompleted.push(false);
-      newDates.push(dates[i]);
-    }
+    // if (completed[i] === false) {
+    //   newTodos.push(todos[i]);
+    //   newCompleted.push(false);
+    //   newDates.push(dates[i]);
+    // }
 
     // Alternate if statement for tuples:
-    // if (todos[i][1] === false) {
-    //   newTodos.push(todos[i]);
-    // }
+    if (todos[i][1] === false) {
+      newTodos.push(todos[i]);
+    }
     
   }
 
