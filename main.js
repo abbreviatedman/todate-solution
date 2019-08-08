@@ -104,6 +104,9 @@ function markComplete(index) {
   // } else {
     todos[index][1] = true;
   // }
+
+  // Or alternate toggling:
+  // todos[index][1] = !todos[index][1];
 }
 
 function printMark(index) {
